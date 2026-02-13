@@ -94,7 +94,7 @@ describe('getToolbarKeymap', () => {
     const view = createMockView();
     for (const binding of keymap) {
       // biome-ignore lint/suspicious/noExplicitAny: mock EditorView for testing
-      const result = binding.run!(view as any, {} as any);
+      const result = binding.run!(view as any);
       expect(result).toBe(true);
     }
   });
@@ -106,7 +106,7 @@ describe('toolbar keybinding actions', () => {
     const keymap = getToolbarKeymap();
     const bold = keymap.find((k) => k.key === 'Mod-b')!;
     // biome-ignore lint/suspicious/noExplicitAny: mock EditorView for testing
-    bold.run!(view as any, {} as any);
+    bold.run!(view as any);
     expect(view.dispatched).toHaveLength(1);
     const tr = view.dispatched[0] as { changes: { insert: string } };
     expect(tr.changes.insert).toBe('**bold text**');
@@ -117,7 +117,7 @@ describe('toolbar keybinding actions', () => {
     const keymap = getToolbarKeymap();
     const italic = keymap.find((k) => k.key === 'Mod-i')!;
     // biome-ignore lint/suspicious/noExplicitAny: mock EditorView for testing
-    italic.run!(view as any, {} as any);
+    italic.run!(view as any);
     const tr = view.dispatched[0] as { changes: { insert: string } };
     expect(tr.changes.insert).toBe('*italic text*');
   });
@@ -127,7 +127,7 @@ describe('toolbar keybinding actions', () => {
     const keymap = getToolbarKeymap();
     const strike = keymap.find((k) => k.key === 'Mod-Shift-x')!;
     // biome-ignore lint/suspicious/noExplicitAny: mock EditorView for testing
-    strike.run!(view as any, {} as any);
+    strike.run!(view as any);
     const tr = view.dispatched[0] as { changes: { insert: string } };
     expect(tr.changes.insert).toBe('~~strikethrough~~');
   });
@@ -137,7 +137,7 @@ describe('toolbar keybinding actions', () => {
     const keymap = getToolbarKeymap();
     const code = keymap.find((k) => k.key === 'Mod-e')!;
     // biome-ignore lint/suspicious/noExplicitAny: mock EditorView for testing
-    code.run!(view as any, {} as any);
+    code.run!(view as any);
     const tr = view.dispatched[0] as { changes: { insert: string } };
     expect(tr.changes.insert).toBe('`code`');
   });
@@ -147,7 +147,7 @@ describe('toolbar keybinding actions', () => {
     const keymap = getToolbarKeymap();
     const link = keymap.find((k) => k.key === 'Mod-k')!;
     // biome-ignore lint/suspicious/noExplicitAny: mock EditorView for testing
-    link.run!(view as any, {} as any);
+    link.run!(view as any);
     const tr = view.dispatched[0] as { changes: { insert: string } };
     expect(tr.changes.insert).toBe('[link text](url)');
   });
@@ -157,7 +157,7 @@ describe('toolbar keybinding actions', () => {
     const keymap = getToolbarKeymap();
     const bold = keymap.find((k) => k.key === 'Mod-b')!;
     // biome-ignore lint/suspicious/noExplicitAny: mock EditorView for testing
-    bold.run!(view as any, {} as any);
+    bold.run!(view as any);
     const tr = view.dispatched[0] as { changes: { insert: string } };
     expect(tr.changes.insert).toBe('**hello**');
   });
@@ -167,7 +167,7 @@ describe('toolbar keybinding actions', () => {
     const keymap = getToolbarKeymap();
     const italic = keymap.find((k) => k.key === 'Mod-i')!;
     // biome-ignore lint/suspicious/noExplicitAny: mock EditorView for testing
-    italic.run!(view as any, {} as any);
+    italic.run!(view as any);
     const tr = view.dispatched[0] as { changes: { insert: string } };
     expect(tr.changes.insert).toBe('*world*');
   });
@@ -177,7 +177,7 @@ describe('toolbar keybinding actions', () => {
     const keymap = getToolbarKeymap();
     const strike = keymap.find((k) => k.key === 'Mod-Shift-x')!;
     // biome-ignore lint/suspicious/noExplicitAny: mock EditorView for testing
-    strike.run!(view as any, {} as any);
+    strike.run!(view as any);
     const tr = view.dispatched[0] as { changes: { insert: string } };
     expect(tr.changes.insert).toBe('~~deleted~~');
   });
@@ -187,7 +187,7 @@ describe('toolbar keybinding actions', () => {
     const keymap = getToolbarKeymap();
     const bold = keymap.find((k) => k.key === 'Mod-b')!;
     // biome-ignore lint/suspicious/noExplicitAny: mock EditorView for testing
-    bold.run!(view as any, {} as any);
+    bold.run!(view as any);
     const tr = view.dispatched[0] as { selection: { anchor: number; head: number } };
     // "**bold text**" -> cursor selects "bold text" (from 2 to 11)
     expect(tr.selection.anchor).toBe(2);
@@ -199,7 +199,7 @@ describe('toolbar keybinding actions', () => {
     const keymap = getToolbarKeymap();
     const link = keymap.find((k) => k.key === 'Mod-k')!;
     // biome-ignore lint/suspicious/noExplicitAny: mock EditorView for testing
-    link.run!(view as any, {} as any);
+    link.run!(view as any);
     const tr = view.dispatched[0] as { selection: { anchor: number; head: number } };
     // "[link text](url)" -> cursor selects "link text" (from 1 to 10)
     expect(tr.selection.anchor).toBe(1);
