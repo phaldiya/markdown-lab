@@ -39,15 +39,25 @@ chrome.runtime.onMessage.addListener((message) => {
   }
 });
 
-// Detect .md URLs and show badge
-chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+// Detect .md URLs and show badge / auto-open side panel
+function activateForMarkdown(tabId, url) {
+  chrome.action.setBadgeText({ text: 'MD', tabId });
+  chrome.action.setBadgeBackgroundColor({ color: '#6366f1', tabId });
+  chrome.sidePanel.setOptions({
+    path: `index.html#/view?url=${encodeURIComponent(url)}`,
+    tabId,
+    enabled: true,
+  });
+}
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  // Check changeInfo.url first (works for most http/https navigations)
   if (changeInfo.url && /\.(md|markdown)(\?|#|$)/i.test(changeInfo.url)) {
-    chrome.action.setBadgeText({ text: 'MD', tabId });
-    chrome.action.setBadgeBackgroundColor({ color: '#6366f1', tabId });
-    chrome.sidePanel.setOptions({
-      path: `index.html#/view?url=${encodeURIComponent(changeInfo.url)}`,
-      tabId,
-      enabled: true,
-    });
+    activateForMarkdown(tabId, changeInfo.url);
+    return;
+  }
+  // For file:// URLs, changeInfo.url may not be set — check when loading completes
+  if (changeInfo.status === 'complete' && tab.url && /\.(md|markdown)(\?|#|$)/i.test(tab.url)) {
+    activateForMarkdown(tabId, tab.url);
   }
 });
