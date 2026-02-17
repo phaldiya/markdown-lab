@@ -37,7 +37,7 @@ jobs:
         run: bun run lint:check
 
       - name: Format check
-        run: biome format .
+        run: bunx biome format .
 
   test:
     name: Tests
