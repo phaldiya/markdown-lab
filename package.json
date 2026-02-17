@@ -23,7 +23,8 @@
     "e2e:visual": "playwright test --project=visual-desktop --project=visual-tablet --project=visual-mobile",
     "e2e:update-snapshots": "playwright test --project=visual-desktop --project=visual-tablet --project=visual-mobile --update-snapshots",
     "extension:icons": "bun run scripts/generate-icons.ts",
-    "extension:zip": "bun run scripts/package-extension.ts"
+    "extension:zip": "bun run scripts/package-extension.ts",
+    "setup-hooks": "sh ./scripts/setup-hooks.sh all"
   },
   "dependencies": {
     "@codemirror/lang-markdown": "^6.3.2",

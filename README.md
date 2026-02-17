@@ -52,6 +52,27 @@ bun run lint
 bun run build
 ```
 
+## Git Hooks
+
+Git hooks are managed via shell scripts in the `git-hooks/` directory. Install them after cloning:
+
+```bash
+bun run setup-hooks
+```
+
+Or install specific hooks:
+
+```bash
+sh ./scripts/setup-hooks.sh pre-commit    # Install pre-commit only
+sh ./scripts/setup-hooks.sh pre-push      # Install pre-push only
+sh ./scripts/setup-hooks.sh all           # Install all hooks
+```
+
+| Hook | Trigger | What it runs |
+|------|---------|--------------|
+| `pre-commit` | Every commit | `bun install --frozen-lockfile`, `bun run lint:check`, `bun run test:smoke` |
+| `pre-push` | Every push | `bun run verify` (unit tests + E2E) |
+
 ## Keyboard Shortcuts
 
 All shortcuts work in Edit and Split view modes.
@@ -143,6 +164,7 @@ e2e/                    # Playwright E2E tests
 | `bun run verify` | Full verify: tests + E2E |
 | `bun run build:extension` | Build Chrome extension |
 | `bun run extension:zip` | Package extension as ZIP |
+| `bun run setup-hooks` | Install git hooks |
 
 ## License
 

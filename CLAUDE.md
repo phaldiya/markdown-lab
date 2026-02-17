@@ -77,3 +77,4 @@ e2e/
 - **Lint:** Biome with strict rules. Run `bun run lint` before committing.
 - **Tests:** Vitest with node environment. localStorage mocked in tests/setup.ts.
 - **Extension:** Dual vite config. Extension build outputs to dist-extension/ with relative paths.
+- **Commits:** Do not include `Co-Authored-By` lines in commit messages.

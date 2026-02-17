@@ -1,0 +1,13 @@
+#!/bin/sh
+
+trap 'echo "Push aborted by user"; exit 1' SIGINT
+
+echo "Running bun run verify..."
+bun run verify
+
+if [ $? -ne 0 ]; then
+  echo "Verification failed. Aborting push."
+  exit 1
+fi
+
+exit 0

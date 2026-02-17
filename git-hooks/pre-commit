@@ -1,0 +1,33 @@
+#!/bin/bash
+
+trap 'echo "Commit aborted by user"; exit 1' SIGINT
+
+echo "Running bun install --frozen-lockfile..."
+bun install --frozen-lockfile
+INSTALL_RESULT=$?
+
+if [ $INSTALL_RESULT -ne 0 ]; then
+  echo "Dependency install failed. Aborting commit."
+  exit 1
+fi
+
+echo "Running bun run lint:check..."
+bun run lint:check
+LINT_RESULT=$?
+
+if [ $LINT_RESULT -ne 0 ]; then
+  echo "Linting failed. Aborting commit."
+  exit 1
+fi
+
+echo "Running bun run test:smoke..."
+bun run test:smoke
+TEST_RESULT=$?
+
+if [ $TEST_RESULT -ne 0 ]; then
+  echo "Smoke tests failed. Aborting commit."
+  exit 1
+fi
+
+echo "Pre-commit checks passed."
+exit 0
