@@ -1,5 +1,5 @@
-export function exportAsHtml(html: string, title: string) {
-  const fullHtml = `<!DOCTYPE html>
+function buildFullHtml(html: string, title: string): string {
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -28,6 +28,19 @@ export function exportAsHtml(html: string, title: string) {
 ${html}
 </body>
 </html>`;
+}
+
+export async function copyHtmlToClipboard(html: string, title: string): Promise<boolean> {
+  try {
+    await navigator.clipboard.writeText(buildFullHtml(html, title));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function exportAsHtml(html: string, title: string) {
+  const fullHtml = buildFullHtml(html, title);
 
   const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
   const url = URL.createObjectURL(blob);

@@ -46,7 +46,11 @@ export default function EditorPanel({ className = '' }: { className?: string }) 
 
   return (
     <div className={`flex flex-1 flex-col overflow-hidden ${className}`}>
-      <EditorToolbar editorView={viewRef.current} />
+      <EditorToolbar
+        editorView={viewRef.current}
+        previewHtml={state.preview.html}
+        title={state.preview.frontmatter?.title}
+      />
       <div className="flex-1 overflow-hidden">
         <CodeMirror
           value={state.editor.content}

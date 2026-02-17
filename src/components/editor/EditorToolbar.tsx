@@ -1,9 +1,13 @@
 import { redo, undo } from '@codemirror/commands';
 import { openSearchPanel } from '@codemirror/search';
 import type { EditorView, KeyBinding } from '@codemirror/view';
+import { useCallback, useRef, useState } from 'react';
 
+import { copyHtmlToClipboard } from '../../lib/exportHtml';
 import {
   BoldIcon,
+  CheckIcon,
+  ClipboardIcon,
   CodeBlockIcon,
   CodeIcon,
   HeadingIcon,
@@ -332,7 +336,26 @@ export function getToolbarKeymap(): KeyBinding[] {
   return bindings;
 }
 
-export default function EditorToolbar({ editorView }: { editorView: EditorView | null }) {
+interface EditorToolbarProps {
+  editorView: EditorView | null;
+  previewHtml?: string;
+  title?: string;
+}
+
+export default function EditorToolbar({ editorView, previewHtml, title }: EditorToolbarProps) {
+  const [copied, setCopied] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
+
+  const handleCopyHtml = useCallback(async () => {
+    if (!previewHtml) return;
+    const ok = await copyHtmlToClipboard(previewHtml, title ?? 'markdown-export');
+    if (ok) {
+      setCopied(true);
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => setCopied(false), 2000);
+    }
+  }, [previewHtml, title]);
+
   return (
     <div
       role="toolbar"
@@ -360,6 +383,20 @@ export default function EditorToolbar({ editorView }: { editorView: EditorView |
           </div>
         </div>
       ))}
+      {previewHtml && (
+        <>
+          <div className="mx-1 h-5 w-px bg-[var(--color-border)]" aria-hidden="true" />
+          <button
+            type="button"
+            aria-label="Copy HTML"
+            title="Copy HTML to clipboard"
+            onClick={handleCopyHtml}
+            className="rounded p-1.5 text-[var(--color-text-secondary)] transition-colors hover:bg-[var(--color-surface-alt)]"
+          >
+            {copied ? <CheckIcon className="text-green-500" /> : <ClipboardIcon />}
+          </button>
+        </>
+      )}
     </div>
   );
 }

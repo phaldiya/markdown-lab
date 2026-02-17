@@ -598,6 +598,46 @@ export default function DocsPage() {
                 />
               </div>
 
+              <div>
+                <h3 className="mb-3 font-semibold text-lg text-slate-800 dark:text-white">Gantt Chart</h3>
+                <LiveExample
+                  title="Gantt chart"
+                  source={
+                    '```mermaid\ngantt\n    title Project Timeline\n    dateFormat YYYY-MM-DD\n    section Design\n        Wireframes       :done, d1, 2024-01-01, 7d\n        UI Mockups       :done, d2, after d1, 5d\n    section Development\n        Frontend         :active, dev1, after d2, 14d\n        Backend API      :dev2, after d2, 10d\n        Integration      :dev3, after dev1, 5d\n    section Testing\n        Unit Tests       :test1, after dev2, 7d\n        E2E Tests        :test2, after dev3, 5d\n```'
+                  }
+                />
+              </div>
+
+              <div>
+                <h3 className="mb-3 font-semibold text-lg text-slate-800 dark:text-white">State Diagram</h3>
+                <LiveExample
+                  title="State diagram"
+                  source={
+                    '```mermaid\nstateDiagram-v2\n    [*] --> Draft\n    Draft --> Review : Submit\n    Review --> Approved : Approve\n    Review --> Draft : Request changes\n    Approved --> Published : Publish\n    Published --> Archived : Archive\n    Archived --> [*]\n```'
+                  }
+                />
+              </div>
+
+              <div>
+                <h3 className="mb-3 font-semibold text-lg text-slate-800 dark:text-white">Entity Relationship</h3>
+                <LiveExample
+                  title="ER diagram"
+                  source={
+                    '```mermaid\nerDiagram\n    USER ||--o{ POST : writes\n    USER ||--o{ COMMENT : makes\n    POST ||--o{ COMMENT : has\n    POST }o--|| CATEGORY : belongs_to\n    USER {\n        int id PK\n        string name\n        string email\n    }\n    POST {\n        int id PK\n        string title\n        text content\n        date created_at\n    }\n```'
+                  }
+                />
+              </div>
+
+              <div>
+                <h3 className="mb-3 font-semibold text-lg text-slate-800 dark:text-white">Git Graph</h3>
+                <LiveExample
+                  title="Git graph"
+                  source={
+                    '```mermaid\ngitGraph\n    commit id: "init"\n    commit id: "add readme"\n    branch feature\n    checkout feature\n    commit id: "new component"\n    commit id: "add tests"\n    checkout main\n    commit id: "hotfix"\n    merge feature id: "merge feature"\n    commit id: "release v1.0"\n```'
+                  }
+                />
+              </div>
+
               <div className="rounded-xl bg-indigo-50 p-4 text-indigo-700 text-sm dark:bg-indigo-950 dark:text-indigo-300">
                 <strong>Note:</strong> Mermaid blocks are detected during the remark/rehype pipeline and rendered
                 asynchronously after the preview DOM updates. Complex diagrams may take a moment to appear.
@@ -616,7 +656,7 @@ export default function DocsPage() {
             <div className="space-y-6">
               <div>
                 <h3 className="mb-3 font-semibold text-lg text-slate-800 dark:text-white">Language Examples</h3>
-                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-2">
                   <LiveExample
                     title="JavaScript"
                     source={'```js\nconst greeting = "Hello, world!";\nconsole.log(greeting);\n```'}
@@ -719,13 +759,13 @@ export default function DocsPage() {
                     <div key={group}>
                       <h4 className="mb-2 font-medium text-slate-700 text-sm dark:text-slate-300">{group}</h4>
                       <div className="overflow-x-auto">
-                        <table className="w-full text-left text-sm">
+                        <table className="w-full table-fixed text-left text-sm">
                           <thead>
                             <tr className="border-slate-200 border-b dark:border-slate-700">
-                              <th className="py-1.5 pr-4 font-medium text-slate-600 text-xs dark:text-slate-400">
+                              <th className="w-1/4 py-1.5 pr-4 font-medium text-slate-600 text-xs dark:text-slate-400">
                                 Action
                               </th>
-                              <th className="py-1.5 pr-4 font-medium text-slate-600 text-xs dark:text-slate-400">
+                              <th className="w-2/5 py-1.5 pr-4 font-medium text-slate-600 text-xs dark:text-slate-400">
                                 Inserts
                               </th>
                               <th className="py-1.5 font-medium text-slate-600 text-xs dark:text-slate-400">
@@ -736,8 +776,8 @@ export default function DocsPage() {
                           <tbody className="text-slate-500 dark:text-slate-400">
                             {items.map(([action, inserts, shortcut]) => (
                               <tr key={action} className="border-slate-100 border-b dark:border-slate-800">
-                                <td className="py-1.5 pr-4">{action}</td>
-                                <td className="py-1.5 pr-4">
+                                <td className="w-1/4 py-1.5 pr-4">{action}</td>
+                                <td className="w-2/5 py-1.5 pr-4">
                                   <CodeBlock>{inserts}</CodeBlock>
                                 </td>
                                 <td className="py-1.5">
