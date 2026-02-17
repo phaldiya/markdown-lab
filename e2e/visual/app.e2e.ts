@@ -15,7 +15,7 @@ test.describe('Visual regression', () => {
 
   test('dark mode', async ({ page }) => {
     await page.goto('#/split');
-    await page.getByRole('button', { name: /dark mode/i }).click();
+    await page.getByRole('button', { name: /dark mode/i }).click({ force: true });
     await page.waitForTimeout(500);
     await expect(page).toHaveScreenshot('dark-mode.png');
   });

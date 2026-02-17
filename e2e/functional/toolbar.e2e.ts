@@ -47,15 +47,15 @@ test.describe('Toolbar accessibility', () => {
     const separators = page.locator('[aria-hidden="true"]').filter({
       has: page.locator('xpath=self::div[contains(@class, "w-px")]'),
     });
-    // 4 separators between 5 groups
-    await expect(separators).toHaveCount(4);
+    // 5 separators: 4 between groups + 1 before Copy HTML button
+    await expect(separators).toHaveCount(5);
   });
 
   test('all buttons have aria-label', async ({ page }) => {
     const toolbar = page.getByRole('toolbar', { name: 'Markdown formatting' });
     const buttons = toolbar.getByRole('button');
     const count = await buttons.count();
-    expect(count).toBe(17);
+    expect(count).toBe(18);
     for (let i = 0; i < count; i++) {
       await expect(buttons.nth(i)).toHaveAttribute('aria-label');
     }
@@ -162,7 +162,7 @@ test.describe('Structure buttons', () => {
   });
 
   test('Ordered List inserts 1. prefix', async ({ page }) => {
-    await page.getByRole('button', { name: 'Ordered List' }).click();
+    await page.getByRole('button', { name: 'Ordered List', exact: true }).click();
     const text = await getEditorText(page);
     expect(text).toContain('1. list item');
   });
@@ -425,7 +425,9 @@ test.describe('Toolbar in edit mode', () => {
 
 test.describe('Toolbar in view mode', () => {
   test('toolbar is not visible in view mode', async ({ page }) => {
-    await page.goto('#/view');
+    await page.goto('#/split');
+    await page.getByRole('link', { name: 'View' }).click();
+    await expect(page).toHaveURL(/#\/view/);
     const toolbar = page.getByRole('toolbar', { name: 'Markdown formatting' });
     await expect(toolbar).toHaveCount(0);
   });
@@ -475,7 +477,7 @@ test.describe('Toolbar preview integration', () => {
   });
 
   test('Ordered List renders as <ol> in preview', async ({ page }) => {
-    await page.getByRole('button', { name: 'Ordered List' }).click();
+    await page.getByRole('button', { name: 'Ordered List', exact: true }).click();
     await page.waitForTimeout(300);
     const preview = page.locator('.markdown-preview');
     await expect(preview.locator('ol')).toBeVisible();

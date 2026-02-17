@@ -8,25 +8,25 @@ test.describe('Navigation', () => {
 
   test('navigates to view mode', async ({ page }) => {
     await page.goto('/');
-    await page.getByRole('button', { name: 'View' }).click();
+    await page.getByRole('link', { name: 'View' }).click();
     await expect(page).toHaveURL(/#\/view/);
   });
 
   test('navigates to edit mode', async ({ page }) => {
     await page.goto('/');
-    await page.getByRole('button', { name: 'Edit' }).click();
+    await page.getByRole('link', { name: 'Edit' }).click();
     await expect(page).toHaveURL(/#\/edit/);
   });
 
   test('navigates to split mode', async ({ page }) => {
     await page.goto('#/view');
-    await page.getByRole('button', { name: 'Split' }).click();
+    await page.getByRole('link', { name: 'Split' }).click();
     await expect(page).toHaveURL(/#\/split/);
   });
 
   test('shows header with title', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('h1')).toContainText('Markdown Lab');
+    await expect(page.locator('header h1')).toContainText('Markdown Lab');
   });
 
   test('toggles dark mode', async ({ page }) => {

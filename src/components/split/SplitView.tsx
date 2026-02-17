@@ -46,17 +46,21 @@ export default function SplitView() {
 
   return (
     <div className="flex h-full overflow-hidden">
-      <div
-        ref={editorContainerRef}
-        className={`flex min-w-0 overflow-hidden ${isView ? 'hidden' : ''}`}
-        style={isSplit ? { width: `${leftPercent}%` } : isEdit ? { width: '100%' } : undefined}
-      >
-        <EditorPanel />
-      </div>
+      {!isView && (
+        <div
+          ref={editorContainerRef}
+          className="flex min-w-0 overflow-hidden"
+          style={isSplit ? { width: `${leftPercent}%` } : { width: '100%' }}
+        >
+          <EditorPanel />
+        </div>
+      )}
       {isSplit && <ResizeDivider onResize={handleResize} onReset={handleReset} />}
-      <div ref={previewContainerRef} className={`min-w-0 flex-1 overflow-y-auto ${isEdit ? 'hidden' : ''}`}>
-        <PreviewPanel />
-      </div>
+      {!isEdit && (
+        <div ref={previewContainerRef} className="min-w-0 flex-1 overflow-y-auto">
+          <PreviewPanel />
+        </div>
+      )}
     </div>
   );
 }
