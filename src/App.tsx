@@ -126,7 +126,7 @@ function DragDropHandler({ children }: { children: React.ReactNode }) {
     (e: React.DragEvent) => {
       e.preventDefault();
       const file = e.dataTransfer.files[0];
-      if (!file || !file.name.match(/\.(md|markdown|txt)$/i)) return;
+      if (!file?.name.match(/\.(md|markdown|txt)$/i)) return;
 
       const reader = new FileReader();
       reader.onload = () => {
