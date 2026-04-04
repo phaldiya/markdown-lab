@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/phaldiya/markdown-lab/compare/v1.2.0...v1.2.1) (2026-04-04)
+
+
+### Bug Fixes
+
+* **security:** add overrides for transitive dependency vulnerabilities ([b82628c](https://github.com/phaldiya/markdown-lab/commit/b82628cb7f9ed2893a50df3394e020c50c20425c))
+* **security:** update overrides for transitive dependency vulnerabilities ([adb3281](https://github.com/phaldiya/markdown-lab/commit/adb32817c0b506f453886c42b81471e6fb309506))
+
 # [1.2.0](https://github.com/phaldiya/markdown-lab/compare/v1.1.1...v1.2.0) (2026-02-19)
 
 
